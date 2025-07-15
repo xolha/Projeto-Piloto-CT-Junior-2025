@@ -1,5 +1,9 @@
+import MeuPerfil from "./MeuPerfil.tsx";
+
 export function App () {
     return (
-        <div>.Hello World!</div>
+        <MeuPerfil />
     )
 }
+
+export default App;
