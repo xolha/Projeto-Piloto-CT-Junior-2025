@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-function MeuPerfil() {
+export function MeuPerfil() {
     const [imagemURL, setImagemURL] = useState("");
     const [descricao, setDescricao] = useState("");
 
