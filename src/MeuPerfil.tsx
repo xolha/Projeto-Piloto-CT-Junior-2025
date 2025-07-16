@@ -57,7 +57,7 @@ export function MeuPerfil() {
             {/*posts*/}
             <div>
                 <div className="grid grid-cols-3 gap-4">
-                    {posts.map((_, i) => (
+                    {posts.map(() => (
                         <div
                             className="w-full h-36 bg-gray-300 rounded flex items-center justify-center">
                         </div>
