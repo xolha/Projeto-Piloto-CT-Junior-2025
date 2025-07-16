@@ -3,6 +3,7 @@ import {useState} from "react";
 export function MeuPerfil() {
     const [imagemURL, setImagemURL] = useState("");
     const [descricao, setDescricao] = useState("");
+    const [posts, setPosts] = useState(["", "", "", "", "", "", "", "", ""]);
 
     function trocarImagem() {
         const link = prompt("Cole o link da imagem:");
@@ -50,6 +51,17 @@ export function MeuPerfil() {
               }}
           />
                     <p className="text-sm text-gray-500 mt-1"></p>
+                </div>
+            </div>
+
+            {/*posts*/}
+            <div>
+                <div className="grid grid-cols-3 gap-4">
+                    {posts.map((_, i) => (
+                        <div
+                            className="w-full h-36 bg-gray-300 rounded flex items-center justify-center">
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
