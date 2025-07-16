@@ -14,9 +14,9 @@ import { MeuPerfil } from './MeuPerfil';
 
 export function App() {
     return (
-            <div className="flex">
+            <div className="flex h-screen">
                 <SideBar />
-                <div>
+                <div className="flex-1 overflow-auto">
                     <Routes>
                         <Route path="/perfil" element={<MeuPerfil />} />
                         {/* <Route path="/feed" element={<Feed />} />
