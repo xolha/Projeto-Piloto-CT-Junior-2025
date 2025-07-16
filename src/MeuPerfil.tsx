@@ -1,23 +1,13 @@
-import { useState, type ChangeEvent } from "react";
+import {useState} from "react";
 
 function MeuPerfil() {
-    const [imagem, setImagem] = useState<string | null>(null);
+    const [imagemURL, setImagemURL] = useState("");
     const [descricao, setDescricao] = useState("");
 
-    /*para selecionar uma nova imagem de perfil*/
-    function trocarImagem(evento: ChangeEvent<HTMLInputElement>) {
-        const arquivo = evento.target.files?.[0];
-        if (arquivo) {
-            const urlImagem = URL.createObjectURL(arquivo);
-            setImagem(urlImagem);
-        }
-    }
-
-    /*quando o usuário digita uma descrição*/
-    function escreverDescricao(evento: ChangeEvent<HTMLTextAreaElement>) {
-        const texto = evento.target.value;
-        if (texto.length <= 180) {
-            setDescricao(texto);
+    function trocarImagem() {
+        const link = prompt("Cole o link da imagem:");
+        if (link) {
+            setImagemURL(link);
         }
     }
 
@@ -30,22 +20,20 @@ function MeuPerfil() {
 
                 {/*foto de perfil*/}
                 <div className="text-center">
-                    <label htmlFor="inputImagem" className="cursor-pointer">
+                    <div onClick={trocarImagem}
+                         className="w-28 h-28 rounded-full border border-gray-400 flex items-center justify-center overflow-hidden cursor-pointer mx-auto">
+
+                    {imagemURL ? (
                         <img
-                            src={imagem || "https://via.placeholder.com/100"}
+                            src={imagemURL}
                             alt="Foto de perfil"
                             className="w-28 h-28 rounded-full object-cover border border-gray-400"
                         />
-                    </label>
+                    ) : (
+                        <p className="text-sm">Foto de perfil</p>
+                    )}
 
-                    <input
-                        id="inputImagem"
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={trocarImagem}
-                    />
-                    <p className="mt-2 font-medium">Foto de Perfil</p>
+                    </div>
                 </div>
 
 
@@ -55,7 +43,11 @@ function MeuPerfil() {
               className="w-full h-24 p-2 border border-gray-400 rounded resize-none"
               placeholder="Descrição (máx: 180 caracteres)"
               value={descricao}
-              onChange={escreverDescricao}
+              onChange={(e) => {
+                  if (e.target.value.length <= 180) {
+                      setDescricao(e.target.value);
+                  }
+              }}
           />
                     <p className="text-sm text-gray-500 mt-1"></p>
                 </div>
