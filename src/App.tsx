@@ -11,6 +11,7 @@
 import { Routes, Route } from "react-router";
 import { SideBar } from './SideBar';
 import { MeuPerfil } from './MeuPerfil';
+import { Postar} from "./Postar.tsx";
 
 export function App() {
     return (
@@ -19,8 +20,8 @@ export function App() {
                 <div className="flex-1 overflow-auto">
                     <Routes>
                         <Route path="/perfil" element={<MeuPerfil />} />
-                        {/* <Route path="/feed" element={<Feed />} />
                         <Route path="/postar" element={<Postar />} />
+                        {/* <Route path="/feed" element={<Feed />} />
                         <Route path="/editar" element={<Editar />} />
                         <Route path="/sair" element={<Sair />} /> */}
 
