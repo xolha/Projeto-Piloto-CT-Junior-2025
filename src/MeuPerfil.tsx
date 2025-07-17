@@ -3,7 +3,7 @@ import {useState} from "react";
 export function MeuPerfil() {
     const [imagemURL, setImagemURL] = useState("");
     const [descricao, setDescricao] = useState("");
-    const [posts, setPosts] = useState(["", "", "", "", "", "", "", "", ""]);
+    const [posts] = useState(["", "", "", "", "", "", "", "", ""]);
 
     function trocarImagem() {
         const link = prompt("Cole o link da imagem:");
@@ -68,4 +68,3 @@ export function MeuPerfil() {
     );
 }
 
-export default MeuPerfil;
