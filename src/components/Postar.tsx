@@ -1,5 +1,6 @@
+"use client"
 import { useState } from "react";
-import { api } from "./lib/api.ts";
+import { api } from "../lib/api";
 
 export function Postar() {
     const [linkImagem, setLinkImagem] = useState("");

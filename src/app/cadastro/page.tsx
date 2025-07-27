@@ -1,7 +1,8 @@
+"use client"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 // Simulação de usernames já existentes no banco de dados
 const existingUsernames = ['admin', 'usuario', 'teste'];
@@ -14,7 +15,7 @@ const registerSchema = z
         message: 'Este nome de usuário já está em uso.',
       }),
 
-    email: z.email({ message: 'Por favor, insira um e-mail válido.' }),
+    email: z.email({ message: 'Por favor 😭, insira um e-mail válido.' }),
 
     password: z.string()
       .nonempty()
@@ -37,9 +38,8 @@ const finalRegisterSchema = registerSchema.transform((data) => {
   return rest;
 });
 
-
-export function Register() {
-  const navigate = useNavigate();
+export default function CadastroPage() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -50,10 +50,11 @@ export function Register() {
 
   async function handleRegister(data: RegisterFormData) {
     const finalData = finalRegisterSchema.parse(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     console.log('Dados FINAIS a serem enviados para o back-end:', finalData);
     alert('Cadastro realizado com sucesso! Você será redirecionado para o login.');
-    navigate('/login');
+    router.push('/login');
   }
 
   return (
@@ -62,7 +63,7 @@ export function Register() {
         onSubmit={handleSubmit(handleRegister)}
         className="bg-green-900 p-8 rounded shadow-md w-[350px] flex flex-col items-center"
       >
-        <img src="assets/logo_branca.png" alt="Logo CT" className="mb-8" />
+        <img src="/assets/logo_branca.png" alt="Logo CT" className="mb-8" />
         <h1 className="text-center text-3xl text-white">Realizar Cadastro</h1>
         <div className="mb-6 w-full">
           <input

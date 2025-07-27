@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* cores base */
+:root {
+  --color-orange-text: #FF6A00;
+  --color-orange-divider: #FF6200;
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  
+  /* fontes */
+  --font-primary: var(--font-montserrat), 'Montserrat', sans-serif;
+  --text: 24px;
+}
+
+body {
+  /* fontes */
+  font-family: var(--font-primary);
+}
+
+.font-primary {
+  font-family: var(--font-primary);
+}

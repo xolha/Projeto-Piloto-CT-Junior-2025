@@ -1,16 +1,12 @@
+'use client'
 import React, { useState } from "react";
-import { useNavigate, Link } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-// interface para as props que o componente vai receber
-interface LoginProps {
-  onLoginSuccess: () => void;
-}
-
-// interface para tipar o componente e desestruturar a prop
-export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+export default function LoginPage() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,9 +15,11 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
     // --- LÓGICA DE VALIDAÇÃO AQUI ---
 
-    // atualizar o estado global
-    onLoginSuccess();
-    navigate('/feed');
+    // Set authentication cookie
+    document.cookie = 'auth-token=your-token; path=/';
+    
+    // Navigate to feed
+    router.push('/feed');
   };
 
   return (
@@ -30,7 +28,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         onSubmit={handleSubmit}
         className="bg-green-900 p-8 rounded shadow-md w-[350px] flex flex-col items-center"
       >
-        <img src="assets/logo_branca.png" alt="Logo CT" className="mb-8" />
+        <img src="/assets/logo_branca.png" alt="Logo CT" className="mb-8" />
 
         <div className="mb-4 w-full">
           <input
@@ -70,7 +68,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         </div>
 
         <div className="mt-2 text-center text-white">
-          <Link to="/cadastro" className="hover:underline">
+          <Link href="/cadastro" className="hover:underline">
             Clique aqui para se cadastrar!
           </Link>
         </div>
