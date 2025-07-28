@@ -1,29 +1,41 @@
-"use client"
-import { useState } from "react";
-import { api } from "../lib/api";
+"use client";
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { useRouter } from 'next/navigation';
+import { api } from "src/lib/api";
+
+{/*schema*/}
+const schema = z.object({
+    linkImagem: z.string().url("Insira um link válido para a imagem."),
+    descricao: z.string().optional(),
+});
+
+type FormData = z.infer<typeof schema>;
 
 export function Postar() {
-    const [linkImagem, setLinkImagem] = useState("");
-    const [descricao, setDescricao] = useState("");
+    const router = useRouter();
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { isSubmitting },
+    } = useForm<FormData>({
+        resolver: zodResolver(schema),
+    });
 
     {/*postar as imagens*/}
-    async function enviarPost(e: any) {
-        e.preventDefault();
-
-        if (!linkImagem) {
-            alert("Você precisa postar um link para a foto!");
-            return;
-        }
-
+    async function enviarPost(data: FormData) {
         try {
             await api.post("/posts", {
-                imagem: linkImagem,
-                descricao: descricao,
+                imagem: data.linkImagem,
+                descricao: data.descricao,
             });
 
-            setLinkImagem("");
-            setDescricao("");
-
+            alert("Post enviado com sucesso!");
+            reset();
+            router.refresh();
         } catch (err) {
             alert("Erro ao postar foto");
             console.error(err);
@@ -36,31 +48,26 @@ export function Postar() {
                 <h1 className="text-2xl font-bold text-gray-800 mb-2">Postar nova foto</h1>
                 <hr className="border-t-2 border-orange-text mb-6 w-full" /> {/* divider */}
 
-                <form onSubmit={enviarPost} className="flex flex-col gap-4 border p-6 rounded shadow">
+                <form onSubmit={handleSubmit(enviarPost)} className="flex flex-col gap-4 border p-6 rounded shadow">
                     <input
                         type="text"
                         placeholder="Link para foto"
                         className="border border-gray-400 p-2 rounded"
-                        value={linkImagem}
-                        onChange={(e) => setLinkImagem(e.target.value)}
+                        {...register("linkImagem")}
                     />
 
                     <input
                         type="text"
                         placeholder="Descrição (Opcional)"
                         className="border border-gray-400 p-2 rounded"
-                        value={descricao}
-                        onChange={(e) => setDescricao(e.target.value)}
+                        {...register("descricao")}
                     />
 
                     <button
                         type="submit"
-                        disabled={!linkImagem}
-                        className={`p-2 rounded text-white ${
-                            linkImagem ? "bg-green-800" : "bg-gray-400 cursor-not-allowed"
-                        }`}
-                    >
-                        Enviar
+                        disabled={isSubmitting}
+                        className="p-2 rounded text-white bg-green-800 hover:bg-green-900 transition-colors">
+                        {isSubmitting ? "Enviando..." : "Enviar"}
                     </button>
                 </form>
             </div>
