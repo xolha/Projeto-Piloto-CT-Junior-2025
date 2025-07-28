@@ -1,42 +1,13 @@
 "use client"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { RegisterFormData } from '@/types/cadastro';
+import { registerSchema, finalRegisterSchema } from '@/types/cadastro';
 
 // Simulação de usernames já existentes no banco de dados
 const existingUsernames = ['admin', 'usuario', 'teste'];
-
-const registerSchema = z
-  .object({
-    username: z.string()
-      .nonempty()
-      .refine((name) => !existingUsernames.includes(name.toLowerCase()), {
-        message: 'Este nome de usuário já está em uso.',
-      }),
-
-    email: z.email({ message: 'Por favor 😭, insira um e-mail válido.' }),
-
-    password: z.string()
-      .nonempty()
-      .min(6, { message: 'A senha deve ter no mínimo 6 caracteres.' }),
-
-    confirmPassword: z.string()
-      .nonempty()
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'As senhas não coincidem.',
-    path: ['confirmPassword'],
-  });
-
-// Tipo dos dados do formulário
-type RegisterFormData = z.infer<typeof registerSchema>;
-
-// Esquema para remover 'confirmPassword'
-const finalRegisterSchema = registerSchema.transform((data) => {
-  const { confirmPassword, ...rest } = data;
-  return rest;
-});
 
 export default function CadastroPage() {
   const router = useRouter();
@@ -53,8 +24,8 @@ export default function CadastroPage() {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     console.log('Dados FINAIS a serem enviados para o back-end:', finalData);
-    alert('Cadastro realizado com sucesso! Você será redirecionado para o login.');
-    router.push('/login');
+    toast.error("Erro ao realizar cadastro. Verifique suas credenciais.");
+    router.push('/');
   }
 
   return (

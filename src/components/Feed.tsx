@@ -2,28 +2,10 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { api } from "src/lib/api";
-
-const schema = z.object({
-    carregar: z.literal(true), // campo fake apenas para acionar o botão
-});
-
-type FormData = z.infer<typeof schema>;
-
-{/*infos do back - tem q ficar fora da função*/}
-type Post = {
-    id: string;
-    imagem: string;
-    descricao: string;
-
-    user: {
-        image: string;
-        nome: string;
-        avatar: string;
-    };
-};
+import { Post } from "@/types/feed"; // Importando o tipo Post
+import { FormData, schema } from "@/types/posts"; // Importando o schema e tipo FormData
 
 let posts: Post[] = [];
 
